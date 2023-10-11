@@ -54,6 +54,7 @@ Remember that an effective EMS is a dynamic system that evolves over time to add
 
 
 phase 2
+
 Innovation-of-environment-monitoring-
  A high-level outline for implementing an environmental monitoring initiatives.the specific
 details will vary depending on the scope and goals of your project, so this is a general
