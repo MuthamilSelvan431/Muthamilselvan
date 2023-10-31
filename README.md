@@ -178,7 +178,37 @@ understanding of the environment, making informed decisions, and taking steps to
 more sustainable and eco-friendly future.
 ## phase 3
 
-for monitoring temperature and humidity using a DHT sensor and a Raspberry Pi. You'll need to install necessary libraries using pip.
+## IoT Environmental Monitoring with using arudino
+
+
+
+
+environmenTo build an IoT-enabled Environmental Monitoring system in public parks using Python and IoT devices like Raspberry Pi, you can follow these steps:
+
+Hardware Setup:
+
+Choose suitable IoT devices like Raspberry Pi or similar single-board computers.
+Connect temperature and humidity sensors (e.g., DHT22) to the Raspberry Pi GPIO pins.
+Raspberry Pi Setup:
+
+Set up Raspbian OS on your Raspberry Pi and ensure it's connected to the internet.
+Install required Python libraries for sensor data acquisition. You may need libraries like Adafruit DHT, RPi.GPIO, and requests.
+For monitoring temperature and humidity using a DHT sensor and a Raspberry Pi. You'll need to install necessary libraries using pip.
+## 1.Monitoring Platform:
+
+Set up a monitoring platform or server to receive and store the data sent by your IoT devices.
+Implement an API endpoint to receive the data. In the script above, we assumed a POST request to the monitoring_url.
+## 2.Visualization and Alerts:
+
+Create a dashboard on your monitoring platform to visualize environmental data.
+Implement alert mechanisms for specific conditions, such as temperature or humidity thresholds.
+## 3.Power Supply:
+
+Ensure you have a reliable power
+source for your IoT devices if they are placed in the field.
+## 4.Security:
+
+Implement security measures to protect your IoT devices and data. This includes securing the communication between your devices and the monitoring platform.
 
  DHT library to read data from a DHT sensor connected to the Raspberry Pi's GPIO pin. You can adapt this code to your specific sensors and hardware setup. Depending on your project's requirements, you might store the data locally, send it to a database, or transmit it to a cloud service
 
