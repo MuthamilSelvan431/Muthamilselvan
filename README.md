@@ -1,5 +1,40 @@
 
 ## Phase 1
+## Environmental monitoring refers to the tools and techniques designed to observe an environment, characterize its quality, and establish environmental parameters, for the purpose of accurately quantifying the impact an activity has on an environment. Results are gathered, analyzed statistically, and then published in a risk assessment and environmental monitoring and impact assessment reporting 
+
+As human population, industrial activities, and energy consumption continues to grow, the continued development of advanced, automated monitoring applications and devices is crucial for enhancing the accuracy of environmental monitoring reports and the cost-effectiveness of the environmental monitoring process.
+‍
+
+Monitoring programs are published outlines within an organization that detail precisely which elements are being monitored, overall objectives, specific strategies, proposed sampling methods, projects within each strategy, and time frames.
+‍
+
+Environmental monitoring products and environmental monitoring software, such as Environmental Data Management Systems (EDMS), facilitate the implementation and monitoring of environmental monitoring and assessment programs, which includes a central data management hub, automated environmental monitoring alerts, compliance checking, validation, quality control, and generation of reports on dataset comparisons.
+‍
+
+## Environmental Monitoring Types
+
+
+The three main types of environmental monitoring are soil, atmosphere, and water. Some techniques of environmental scanning and monitoring include filtration, sedimentation, electrostatic samples, impingers, absorption, condensation, grab sampling, and composite sampling.
+‍
+
+Data collected from these methods of environmental monitoring can be input into a DBMS, where it can be categorized, analyzed, visualized, and create actionable insights that drive informed decision making.
+‍
+## Air Monitoring:
+Environmental data gathered using specialized observation tools, such as sensor networks and Geographic Information System (GIS) models, from multiple different environmental networks and institutes is integrated into air dispersion models, which combine emissions, meteorological, and topographic data to detect and predict concentration of air pollutants.
+Soil Monitoring: Grab sampling (individual samples) and composite sampling (multiple samples) are used to monitor soil, set baselines, and detect threats such as acidification, biodiversity loss, compaction, contamination, erosion, organic material loss, salinization, and slope instability.
+
+## Salinity Monitoring:
+Remote sensing, GIS, and electromagnetic induction are used to monitor soil salinity, which, if imbalanced, can cause detrimental effects on water quality, infrastructure, and plant yield.
+
+## Contamination Monitoring: 
+Chemical techniques such as chromatography and spectrometry are used to measure toxic elements, such as nuclear waste, coal ash, microplastics, petrochemicals, and acid rain, which can lead to the development of pollution-related diseases if consumed by humans or animals. 
+
+## Erosion Monitoring: 
+Monitoring and modeling soil erosion is a complex process in which accurate predictions are nearly impossible for large areas. The Universal Soil Loss Equation (USLE) is most commonly used to try to predict soil loss due to water erosion. Erosion may be due to factors such as rainfall, surface runoff, rivers, streams, floods, wind, mass movement, climate, soil composition and structure, topography, and lack of vegetation management.
+
+## Water Monitoring:
+Environmental sampling techniques include judgmental, simple random, stratified, systematic and grid, adaptive cluster, grab, and passive; semi-continuous and continuous environmental monitoring; remote sensing and environmental monitoring; and bio-monitoring are used to measure and monitor ranges for biological, chemical, radiological, microbiological, and population parameters.
+
 
 ## Designing an environmental management system (EMS) requires careful planning and consideration of various elements. Here are some ideas and key steps to help you design and Effective EMS:
 
@@ -141,3 +176,186 @@ conservation, resource management, and public health.
 Overall, innovation in environmental monitoring is essential for improving our
 understanding of the environment, making informed decisions, and taking steps towards a
 more sustainable and eco-friendly future.
+## phase 3
+
+for monitoring temperature and humidity using a DHT sensor and a Raspberry Pi. You'll need to install necessary libraries using pip.
+
+ DHT library to read data from a DHT sensor connected to the Raspberry Pi's GPIO pin. You can adapt this code to your specific sensors and hardware setup. Depending on your project's requirements, you might store the data locally, send it to a database, or transmit it to a cloud service
+
+Development Part 1
+
+CODE:
+
+#include <WiFi.h>
+
+#include <HTTPClient.h>
+
+#include <DHT.h>
+
+const char* ssid = "Your_SSID";
+
+const char* password = "Your_Password";
+
+const char* serverUrl = "https://smartenviron.free.beeceptor.com/smartenviron/";
+
+#define DHTPIN 4
+
+#define DHTTYPE DHT22
+
+DHT dht(DHTPIN, DHTTYPE);
+
+const unsigned long INTERVAL = 60000; // Send data every 1 minute
+
+unsigned long previousMillis = 0;
+
+float temperature = 0.0;
+
+float humidity = 0.0;
+
+void setup() {
+
+ Serial.begin(9600);
+
+ Serial.print("Connecting to WiFi");
+
+// Attempt to connect to WiFi
+
+ WiFi.begin(ssid, password);
+
+ while (WiFi.status() != WL_CONNECTED) {
+
+ Serial.print(".");
+
+ delay(1000); // Wait for 1 second before retrying
+
+ }
+
+if (WiFi.status() == WL_CONNECTED) {
+
+ Serial.println(" Connected!");
+
+ dht.begin();
+
+ } else {
+
+ Serial.println(" WiFi not connected.") }
+ }void loop() {
+
+ if (WiFi.status() != WL_CONNECTED) {
+
+ // WiFi is not connected, you can handle this scenario as needed
+
+ Serial.println("WiFi not connected. Reconnecting...");
+
+ connectToWiFi();
+
+ } else {
+
+ unsigned long currentMillis = millis();
+
+ if (currentMillis - previousMillis >= INTERVAL) {
+
+ previousMillis = currentMillis;
+
+ float newTemperature = dht.readTemperature();
+
+ float newHumidity = dht.readHumidity();
+
+ if (!isnan(newTemperature) && !isnan(newHumidity)) {
+
+ // Only send data if there's a significant change
+
+ if (abs(newTemperature - temperature) >= 0.5 || abs(newHumidity - humidity) >= 1.0) {
+
+ temperature = newTemperature;
+
+ humidity = newHumidity;
+
+ sendSensorData();
+
+ }
+
+ } else {
+
+ Serial.println("Failed to read from DHT sensor!");
+
+ } }}}
+
+void connectToWiFi() {
+
+ WiFi.begin(ssid, password);
+
+while (WiFi.status() != WL_CONNECTED) {
+
+ Serial.print(".");
+
+ delay(1000); // Wait for 1 second before retrying
+
+ }
+
+if (WiFi.status() == WL_CONNECTED) {
+
+ Serial.println("WiFi reconnected!");
+
+ }}
+
+void sendSensorData() {
+
+ // The rest of your sendSensorData function remains the same}
+
+## CODE DISCRIPTION:
+
+This Arduino sketch is designed to create a robust environment monitoring system. It utilizes a DHT22 
+
+sensor to capture temperature and humidity data and wirelessly transmits this data to a designated server 
+
+via Wi-Fi. The core functionalities encompass Wi-Fi network connectivity, sensor data acquisition, and 
+
+periodic data transmission.
+
+## Initialization and Wi-Fi Connection:
+
+The sketch starts by initializing the Serial communication for debugging purposes with a baud rate of 
+
+9600.It then attempts to connect to a Wi-Fi network using the provided SSID (Service Set Identifier) and 
+
+password.During the connection process, the sketch displays a series of dots to indicate the connection 
+
+status. If a connection is established, it informs the user with a "Connected!" message. If not, it signals that 
+
+Wi-Fi is not connected.
+
+## Main Loop:
+
+The primary loop continually checks the Wi-Fi connection status. If the connection is lost, it enters a 
+
+reconnection phase, calling the connectToWiFi() function.When the Wi-Fi connection is stable, the sketch 
+
+monitors the time elapsed since the last data transmission. It waits for a specified interval (in this case, one 
+
+minute) before checking the sensor for new temperature and humidity readings.If fresh data is available 
+
+and is significantly different from the previous readings (with predefined thresholds of 0.5°C for 
+
+temperature and 1.0% for humidity), it proceeds to send the updated data to the server.Wi-Fi Reconnection Function (connectToWiFi):
+This function is responsible for reconnecting to the Wi-Fi network in case of a connection loss.
+It employs a loop to repeatedly attempt connection and displays progress dots.
+When a successful reconnection occurs, it prints "WiFi reconnected!".
+
+## Data Transmission Function (sendSensorData):
+This function constructs a URL to the designated server, incorporating the temperature and humidity data 
+as query parameters.
+
+It initiates an HTTP GET request to the server using the HTTPClient library.The function then evaluates the 
+HTTP response code to confirm the success of the transmission.In the event of success, it prints the 
+server's response.If the HTTP request fails, it reports an error code.
+
+## ADDITIONAL FEATURES:
+Error Handling: Improve error handling to handle network or server issues gracefully.
+## Modularize Code:
+Break the code into smaller functions for better organization and readability.
+## Minimize String Usage:
+Avoid using the String class, as it can cause memory fragmentation on 
+microcontrollers. Use character arrays (char[]) for data instead.
+## Reduce HTTP Requests:
+Instead of sending data in every loop iteration, consider sending data at longer intervals or only when there's a significant change in sensor values.
