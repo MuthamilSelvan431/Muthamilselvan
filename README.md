@@ -508,26 +508,26 @@ Code:
 import paho.mqtt.client as mqtt
 import json
 
-# MQTT configuration
+-# MQTT configuration
 mqtt_broker = "your-mqtt-broker.com"
 mqtt_port = 1883
 mqtt_topic = "environmental_data"
 
-# Replace with your authentication credentials
+-# Replace with your authentication credentials
 username = "your_username"
 password = "your_password"
 
-# Create an MQTT client
+-# Create an MQTT client
 client = mqtt.Client()
 client.username_pw_set(username, password)
 
-# Callback function when connected to MQTT broker
+-# Callback function when connected to MQTT broker
 def on_connect(client, userdata, flags, rc):
     print("Connected to MQTT Broker with result code " + str(rc))
     # Subscribe to the topic
     client.subscribe(mqtt_topic)
 
-# Callback function when a message is received
+-# Callback function when a message is received
 def on_message(client, userdata, msg):
     payload = json.loads(msg.payload.decode())
     # Process the received data
@@ -536,22 +536,22 @@ def on_message(client, userdata, msg):
     air_quality = payload["air_quality"]
     # You can process the data further or send it to the mobile app
 
-# Set callback functions
+-# Set callback functions
 client.on_connect = on_connect
 client.on_message = on_message
 
-# Connect to MQTT broker
+-# Connect to MQTT broker
 client.connect(mqtt_broker, mqtt_port, 60)
 
-# Start the MQTT client loop
+-# Start the MQTT client loop
 client.loop_start()
 
-# Your code to send data to the mobile app
-# You can use a library like Flask to create a REST API or use a WebSocket library to send data in real-time.
+-# Your code to send data to the mobile app
+-# You can use a library like Flask to create a REST API or use a WebSocket library to send data in real-time.
 
-# In a real-world scenario, you would have additional logic to process and send data to the mobile app.
+-# In a real-world scenario, you would have additional logic to process and send data to the mobile app.
 
-# Keep the script running
+-# Keep the script running
 try:
     while True:
         pass
